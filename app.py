@@ -1,5 +1,5 @@
+import os
 import psycopg2
-
 from flask import Flask, Markup
 
 app = Flask(__name__)
@@ -24,6 +24,8 @@ test = dbc.cursor.fetchone()
 
 '''
 
+x = os.environ.get('DATABASE_URL')
+
 @app.route("/")
 def index():
-    return "Szia Uram!"
+    return "Szia Uram! " + str(x)
