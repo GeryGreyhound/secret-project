@@ -4,6 +4,8 @@ from flask import Flask, Markup
 
 app = Flask(__name__)
 
+'''
+
 class DatabaseConnection:
 
 	config_file = "database.conf"
@@ -20,6 +22,8 @@ dbc = DatabaseConnection()
 dbc.cursor.execute("SELECT * FROM coinbase_pro LIMIT 1")
 test = dbc.cursor.fetchone()
 
+'''
+
 @app.route("/")
 def index():
-    return Markup(f"<h1>Szia Uram!</h1><p>{str(test)}</p>")
+    return "Szia Uram!"
