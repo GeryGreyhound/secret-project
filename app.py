@@ -15,9 +15,6 @@ app = Flask(__name__)
 
 @app.route("/")
 def index():
-
 	cur.execute("SELECT * FROM secrets")
-
 	x = cur.fetchone()
-
-    return "Szia Uram! " + str(x)
+	return "Szia Uram! " + str(x)
