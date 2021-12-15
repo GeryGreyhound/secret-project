@@ -51,11 +51,11 @@ def retrieve_secret(hash):
 	
 	secret.create_output(format)
 
-		if format == "html":
-			return render_template("content.html", content = "secret_details", secret = secret)
+	if format == "html":
+		return render_template("content.html", content = "secret_details", secret = secret)
 
-		else:
-			return secret.output
+	else:
+		return secret.output
 
 
 if __name__ == "__main__":

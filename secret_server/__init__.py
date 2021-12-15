@@ -3,7 +3,7 @@ import psycopg2
 import os
 from urllib.parse import urlparse
 from hashlib import sha256
-from flask import jsonify
+from flask import jsonify, Markup
 
 class DatabaseConnection:
 	def execute_query(self, query_string, query_parameters, fetch=None):
@@ -118,7 +118,7 @@ class Secret:
 			for key, value in self.__dict__.items():
 				table_rows += f"<tr><td>{key}</td><td>{value}</tr>\n"
 
-			self.output = f'''
+			self.output = Markup(f'''
 			<table class="table">
 				  <thead>
 				    	<tr>
@@ -131,7 +131,7 @@ class Secret:
 				  	</tbody>
 			</table>
 
-			'''
+			''')
 		
 		elif format == "xml":
 			self.output = "to be implemented..."
