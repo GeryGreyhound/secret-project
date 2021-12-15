@@ -24,6 +24,8 @@ class DatabaseConnection:
 			result = cur.fetchone()
 		elif fetch=="all":
 			result = cur.fetchall()
+		else:
+			result = None
 
 		conn.close()
 
@@ -56,6 +58,14 @@ class Secret:
 			self.expires_at = result[3]
 			self.views_allowed = result[4]
 			self.check_expiry(self)
+
+			if count_view:
+				query_string = "INSERT INTO views VALUES (%s, %s)"
+				query_parameters = [datetime.datetime.now(), self.hash]
+
+			else:
+				pass
+				# the first automatic preview should not count as a view and decrease the number of remaining views
 
 		else:
 			self.error = "Not found"
