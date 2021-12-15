@@ -4,7 +4,7 @@ from flask import Flask, Markup, jsonify, request, render_template
 from passlib.hash import sha256_crypt
 from urllib.parse import urlparse
 
-from secret import *
+from secret_server import *
 
 app = Flask(__name__)
 
