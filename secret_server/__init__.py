@@ -94,6 +94,7 @@ class Secret:
 	def add_to_database(self):
 		query_string = "INSERT INTO secrets VALUES (%s, %s, %s, %s, %s)"
 		query_parameters = [self.hash, self.secret_text, self.created_at, self.expires_at, self.views_allowed]
+		print("ADD TO DB:", query_string, query_parameters)
 		
 		dbc = DatabaseConnection()
 		dbc.execute_query(query_string, query_parameters)
