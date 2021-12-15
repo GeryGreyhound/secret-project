@@ -11,24 +11,25 @@ class DatabaseConnection:
 		db = "dbname=%s user=%s password=%s host=%s " % (url.path[1:], url.username, url.password, url.hostname)
 		schema = "schema.sql"
 		try:
-			conn = psycopg2.connect(db)
-			cur = conn.cursor()
+			connect = psycopg2.connect(db)
+			connect.autocommit = True
+			cursor = connect.cursor()
 		except:
 			return "DatabaseConnectionError"
 	
 		try:
-			cur.execute(query_string, query_parameters)
+			cursor.execute(query_string, query_parameters)
 		except:
 			return "DatabaseQueryError"	
 
 		if fetch=="one":
-			result = cur.fetchone()
+			result = cursor.fetchone()
 		elif fetch=="all":
-			result = cur.fetchall()
+			result = cursor.fetchall()
 		else:
 			result = None
 
-		conn.close()
+		connect.close()
 
 		return result
 	
