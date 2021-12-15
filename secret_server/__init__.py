@@ -3,6 +3,7 @@ import psycopg2
 import os
 from urllib.parse import urlparse
 from hashlib import sha256
+from flask import jsonify
 
 class DatabaseConnection:
 	def execute_query(self, query_string, query_parameters, fetch=None):
