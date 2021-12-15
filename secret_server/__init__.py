@@ -5,9 +5,7 @@ from urllib.parse import urlparse
 from hashlib import sha256
 
 class DatabaseConnection:
-
 	def execute_query(self, query_string, query_parameters, fetch=None):
-
 		url = urlparse(os.environ.get('DATABASE_URL'))
 		db = "dbname=%s user=%s password=%s host=%s " % (url.path[1:], url.username, url.password, url.hostname)
 		schema = "schema.sql"
@@ -20,16 +18,17 @@ class DatabaseConnection:
 		try:
 			cur.execute(query_string, query_parameters)
 		except:
-			return "DatabaseQueryError"
+			return "DatabaseQueryError"	
+
+		if fetch=="one":
+			result = cur.fetchone()
+		elif fetch=="all":
+			result cur.fetchall()
 
 		conn.close()
 
-		if fetch=="one":
-			return cur.fetchone()
-		elif fetch=="all":
-			return cur.fetchall()
+		return result
 	
-
 class Secret:
 
 	def __init__(self):
