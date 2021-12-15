@@ -31,9 +31,7 @@ class DatabaseConnection:
 	
 
 class Secret:
-	
-	dbc = DatabaseConnection()
-	
+
 	def __init__(self):
 		pass
 
@@ -46,11 +44,13 @@ class Secret:
 
 		self.add_to_database()
 
-	def get_by_hash(self,hash,count_view = True):
+	def get_by_hash(self,hash,count_view = True):	
 		self.hash = hash
 		query_string = "SELECT * FROM secrets WHERE hash = (%s)"
 		query_parameters = [self.hash]
+		dbc = DatabaseConnection()
 		result = dbc.execute_query(query_string, query_parameters, fetch="one")
+		
 		if len(res) > 0:
 			self.secret_text = result[1]
 			self.created_at = result[2]
@@ -62,8 +62,6 @@ class Secret:
 			self.error = "Not found"
 
 
-
-
 	def check_expiry(self):
 		self.expired = False
 
@@ -72,6 +70,7 @@ class Secret:
 			self.expiry_reason = "date"
 
 		else:
+			dbc = DatabaseConnection()
 			query_string = "SELECT * FROM views WHERE hash = (%s)"
 			query_parameters = [self.hash]
 			views = dbc.execute_query(query_string, query_parameters, fetch="all")
