@@ -61,7 +61,7 @@ class Secret:
 
 			if count_view:
 				query_string = "INSERT INTO views VALUES (%s, %s)"
-				query_parameters = [datetime.datetime.now(), self.hash]
+				query_parameters = [datetime.now(), self.hash]
 
 			else:
 				pass
