@@ -52,7 +52,7 @@ class Secret:
 		dbc = DatabaseConnection()
 		result = dbc.execute_query(query_string, query_parameters, fetch="one")
 		
-		if len(res) > 0:
+		if len(result) > 0:
 			self.secret_text = result[1]
 			self.created_at = result[2]
 			self.expires_at = result[3]

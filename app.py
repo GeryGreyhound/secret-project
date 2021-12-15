@@ -23,7 +23,7 @@ def secret_page():
 			expire_time = request.form.get("inputExpireMinutes")
 			expire_views = request.form.get("inputExpireViews")
 			secret.create(secret_text, expire_time, expire_views)
-			redirect_url = f"/secret/{secret.hash}/html"
+			redirect_url = f"/secret/{secret.hash}/json"
 			return redirect(redirect_url)
 		
 		else:
