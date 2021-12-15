@@ -44,7 +44,7 @@ class Secret:
 		self.hash = sha256(secret_text.encode("utf-8")).hexdigest()
 		self.views_allowed = views_allowed
 		
-		if expiry_time > 0:
+		if int(expiry_time) > 0:
 			self.expires_at = datetime.now() + timedelta(minutes = int(expiry_time))
 		else:
 			self.expires_at = None
