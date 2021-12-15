@@ -23,7 +23,7 @@ def secret_page():
 			expire_time = request.form.get("inputExpireMinutes")
 			expire_views = request.form.get("inputExpireViews")
 			secret.create(secret_text, expire_time, expire_views)
-			redirect_url = f"/secret/{secret.hash}/json"
+			redirect_url = f"/secret/{secret.hash}?format=html"
 			return redirect(redirect_url)
 		
 		else:
@@ -35,25 +35,27 @@ def secret_page():
 	else:
 		return "405"
 
-@app.route("/secret/<hash>/<format>")
-def retrieve_secret(hash, format="html"):
+@app.route("/secret/<hash>")
+def retrieve_secret(hash):
+
 	secret = Secret()
 	secret.get_by_hash(hash)
 
 	if secret.expired:
 		return f"Secret expired: {secret.expiry_reason}"
-	else:
-
+	
+	elif "format" in request.args:
+		format = request.args.get("format")
+			
 		secret.create_output(format)
 
-		if format == "json":
+		if format == "html":
+			return render_template("content.html", content = "secret_details", data = secret.output)
+
+		else:
 			return secret.output
-	
-		elif format == "xml":
-			return "XML output - to be implemented"
 		
-		elif format == "html":
-			return render_template("content.html", content = "secret_details", secret = secret)
+			
 
 
 if __name__ == "__main__":

@@ -64,6 +64,7 @@ class Secret:
 			if count_view:
 				query_string = "INSERT INTO views VALUES (%s, %s)"
 				query_parameters = [datetime.now(), self.hash]
+				dbc.execute_query(query_string, query_parameters)
 
 			else:
 				pass
@@ -86,13 +87,15 @@ class Secret:
 			query_parameters = [self.hash]
 			views = dbc.execute_query(query_string, query_parameters, fetch="all")
 			
-			if not "Error" in views:
+			if views and not "Error" in views:
 				if len(views) >= self.views_allowed:
 					self.expired = True
 					self.expiry_reason = "views"
 				else:
 					self.remaining_views = self.views_allowed - len(views)
-
+			else:
+				print("Error:", views)
+	
 	def add_to_database(self):
 		query_string = "INSERT INTO secrets VALUES (%s, %s, %s, %s, %s)"
 		query_parameters = [self.hash, self.secret_text, self.created_at, self.expires_at, self.views_allowed]
