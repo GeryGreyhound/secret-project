@@ -115,9 +115,9 @@ class Secret:
 			self.output = jsonify(self.__dict__)
 
 		elif format == "html":
-			table_rows = ""
-			
 			for key, value in self.__dict__.items():
+				if key == "hash":
+					value = f"<a href=https://allmyles-secret-project.herokuapp.com/secret/{value}>{value}</a>"
 				table_rows += f"<tr><td>{key}</td><td>{value}</tr>\n"
 
 			self.output = Markup(f'''
