@@ -1,0 +1,77 @@
+{% extends "index.html" %}
+{% block content %}
+
+{% if content == "new_secret" %}
+
+<h1>Add a new secret</h1>
+
+<form action="/secret" method="POST" enctype="application/x-www-form-urlencoded">
+  <div class="form-group">
+    <label for="inputSecret">Secret Text</label>
+    <input type="text" class="form-control" name="inputSecret" id="inputSecret">
+    <small id="secretHelp" class="form-text text-muted">This text will be saved as a secret</small>
+  </div>
+ 
+  <div class="form-row">
+    <div class="form-group col-md-4">
+      <label for="inputExpireViews">Expire after views</label>
+      <input type="number" class="form-control" name="inputExpireViews" id="inputExpireViews">
+      <small id="inputExpireViewsHelp" class="form-text text-muted">The secret won't be available after the given number of views. It must be greater than 0.</small>
+    
+    </div>
+    <div class="form-group col-md-4">
+      <label for="inputExpireMinutes">Expire after minutes</label>
+      <input type="number" class="form-control" name="inputExpireMinutes" id="inputExpireMinutes">
+      <small id="inputExpireMinutesHelp" class="form-text text-muted">The secret won't be available after the given time. The value is provided in minutes. 0 means never expires</small>
+    
+    </div>
+    <div class="form-group col-md-2">
+  <button type="submit" class="btn btn-primary">Submit</button>
+</div>
+</form>
+
+{% elif content == "get_secret" %}
+
+{% elif content == "secret_details" %}
+
+<h1>Secret details</h1>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">First</th>
+      <th scope="col">Last</th>
+      <th scope="col">Handle</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th scope="row">1</th>
+      <td>Mark</td>
+      <td>Otto</td>
+      <td>@mdo</td>
+    </tr>
+    <tr>
+      <th scope="row">2</th>
+      <td>Jacob</td>
+      <td>Thornton</td>
+      <td>@fat</td>
+    </tr>
+    <tr>
+      <th scope="row">3</th>
+      <td>Larry</td>
+      <td>the Bird</td>
+      <td>@twitter</td>
+    </tr>
+  </tbody>
+</table>
+
+
+{% secret %}
+
+{% else %}
+
+{% endif %}
+
+{% endblock %}

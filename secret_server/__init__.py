@@ -41,12 +41,12 @@ class Secret:
 		self.created_at = datetime.now()
 		self.secret_text = secret_text
 		self.hash = sha256(secret_text.encode("utf-8")).hexdigest()
-		self.expires_at = datetime.now() + timedelta(minutes = expiry_time)
+		self.expires_at = datetime.now() + timedelta(minutes = int(expiry_time))
 		self.views_allowed = views_allowed
 
 		self.add_to_database()
 
-	def retrieve(self,hash):
+	def get_by_hash(self,hash,count_view = True):
 		self.hash = hash
 		query_string = "SELECT * FROM secrets WHERE hash = (%s)"
 		query_parameters = [self.hash]
@@ -60,6 +60,8 @@ class Secret:
 
 		else:
 			self.error = "Not found"
+
+
 
 
 	def check_expiry(self):
@@ -88,9 +90,13 @@ class Secret:
 		dbc = DatabaseConnection()
 		dbc.execute_query(query_string, query_parameters)
 
-	def create_output(format="JSON"):
-		if format == "JSON":
+	def create_output(format):
+		if format == "json":
+			self.output = jsonify(self.__dict__)
+
+		elif format == "html":
 			pass
-		elif format == "XML":
+		
+		elif format == "xml":
 			self.output = "to be implemented..."
 
