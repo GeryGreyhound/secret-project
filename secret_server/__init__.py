@@ -23,7 +23,7 @@ class DatabaseConnection:
 		if fetch=="one":
 			result = cur.fetchone()
 		elif fetch=="all":
-			result cur.fetchall()
+			result = cur.fetchall()
 
 		conn.close()
 
