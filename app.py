@@ -45,7 +45,7 @@ def retrieve_secret(hash):
 	if secret.expired:
 		return jsonify({"expired" : True, "expiry_reason" : secret.expiry_reason})
 
-	if error in secret.__dict__:
+	if "error" in secret.__dict__:
 		return jsonify({"error" : secret.error})
 
 	format = request.args.get("format")
