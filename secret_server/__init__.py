@@ -6,7 +6,7 @@ from hashlib import sha256
 
 class DatabaseConnection:
 
-	def execute_query(query_string, query_parameters, fetch=None):
+	def execute_query(self, query_string, query_parameters, fetch=None):
 
 		url = urlparse(os.environ.get('DATABASE_URL'))
 		db = "dbname=%s user=%s password=%s host=%s " % (url.path[1:], url.username, url.password, url.hostname)
