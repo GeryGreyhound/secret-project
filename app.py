@@ -37,25 +37,25 @@ def secret_page():
 
 @app.route("/secret/<hash>")
 def retrieve_secret(hash):
+	default_format = "json"
 
 	secret = Secret()
 	secret.get_by_hash(hash)
 
 	if secret.expired:
-		return f"Secret expired: {secret.expiry_reason}"
+		return jsonify({"expired" : True, "expiry_reason" : secret.expiry_reason})
+
+	format = request.args.get("format")
+	if not format:
+		format = default_format	
 	
-	elif "format" in request.args:
-		format = request.args.get("format")
-			
-		secret.create_output(format)
+	secret.create_output(format)
 
 		if format == "html":
-			return render_template("content.html", content = "secret_details", data = secret.output)
+			return render_template("content.html", content = "secret_details", secret = secret)
 
 		else:
 			return secret.output
-		
-			
 
 
 if __name__ == "__main__":

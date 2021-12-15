@@ -42,8 +42,13 @@ class Secret:
 		self.created_at = datetime.now()
 		self.secret_text = secret_text
 		self.hash = sha256(secret_text.encode("utf-8")).hexdigest()
-		self.expires_at = datetime.now() + timedelta(minutes = int(expiry_time))
 		self.views_allowed = views_allowed
+		
+		if expiry_time > 0:
+			self.expires_at = datetime.now() + timedelta(minutes = int(expiry_time))
+		else:
+			self.expires_at = None
+		
 
 		self.add_to_database()
 
@@ -77,7 +82,7 @@ class Secret:
 	def check_expiry(self):
 		self.expired = False
 
-		if self.expires_at <= datetime.now():
+		if self.expires_at and self.expires_at <= datetime.now():
 			self.expired = True
 			self.expiry_reason = "date"
 
@@ -93,13 +98,13 @@ class Secret:
 					self.expiry_reason = "views"
 				else:
 					self.remaining_views = self.views_allowed - len(views)
+			
 			else:
-				print("Error:", views)
+				self.error = "Error getting views"
 	
 	def add_to_database(self):
 		query_string = "INSERT INTO secrets VALUES (%s, %s, %s, %s, %s)"
 		query_parameters = [self.hash, self.secret_text, self.created_at, self.expires_at, self.views_allowed]
-		
 		dbc = DatabaseConnection()
 		dbc.execute_query(query_string, query_parameters)
 
@@ -108,7 +113,25 @@ class Secret:
 			self.output = jsonify(self.__dict__)
 
 		elif format == "html":
-			pass
+			table_rows = ""
+			
+			for key, value in self.__dict__.items():
+				table_rows += f"<tr><td>{key}</td><td>{value}</tr>\n"
+
+			self.output = f'''
+			<table class="table">
+				  <thead>
+				    	<tr>
+				      		<th scope="col">parameter</th>
+				      		<th scope="col">value</th>
+				    	</tr>
+				  </thead>
+				  	<tbody>
+				  		{table_rows}
+				  	</tbody>
+			</table>
+
+			'''
 		
 		elif format == "xml":
 			self.output = "to be implemented..."
