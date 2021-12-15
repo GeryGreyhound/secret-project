@@ -57,7 +57,7 @@ class Secret:
 			self.created_at = result[2]
 			self.expires_at = result[3]
 			self.views_allowed = result[4]
-			self.check_expiry(self)
+			self.check_expiry()
 
 			if count_view:
 				query_string = "INSERT INTO views VALUES (%s, %s)"
@@ -94,7 +94,6 @@ class Secret:
 	def add_to_database(self):
 		query_string = "INSERT INTO secrets VALUES (%s, %s, %s, %s, %s)"
 		query_parameters = [self.hash, self.secret_text, self.created_at, self.expires_at, self.views_allowed]
-		print("ADD TO DB:", query_string, query_parameters)
 		
 		dbc = DatabaseConnection()
 		dbc.execute_query(query_string, query_parameters)
