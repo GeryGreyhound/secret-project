@@ -98,7 +98,7 @@ class Secret:
 		dbc = DatabaseConnection()
 		dbc.execute_query(query_string, query_parameters)
 
-	def create_output(format):
+	def create_output(self, format):
 		if format == "json":
 			self.output = jsonify(self.__dict__)
 
